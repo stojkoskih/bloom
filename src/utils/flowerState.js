@@ -1,16 +1,13 @@
-import { DEFAULT_FLOWER, STEM_OPTIONS } from '../constants/flower';
-
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value));
-}
+import { DEFAULT_FLOWER, FLOWER_TYPE_OPTIONS, STEM_OPTIONS } from '../constants/flower';
 
 export function normalizeFlower(candidate) {
   if (!candidate || typeof candidate !== 'object') {
     return DEFAULT_FLOWER;
   }
 
-  const petals = clamp(Number(candidate.petals) || DEFAULT_FLOWER.petals, 4, 18);
-  const size = clamp(Number(candidate.size) || DEFAULT_FLOWER.size, 120, 240);
+  const flowerType = FLOWER_TYPE_OPTIONS.some((option) => option.value === candidate.flowerType)
+    ? candidate.flowerType
+    : DEFAULT_FLOWER.flowerType;
   const stem = STEM_OPTIONS.some((option) => option.value === candidate.stem)
     ? candidate.stem
     : DEFAULT_FLOWER.stem;
@@ -21,16 +18,21 @@ export function normalizeFlower(candidate) {
   const petalPalette = Array.isArray(candidate.petalPalette)
     ? candidate.petalPalette.slice(0, 3).filter(Boolean)
     : DEFAULT_FLOWER.petalPalette;
+  const backgroundColors = Array.isArray(candidate.backgroundColors)
+    ? candidate.backgroundColors.slice(0, 3).filter(Boolean)
+    : DEFAULT_FLOWER.backgroundColors;
 
   return {
-    petals,
+    flowerType,
     petalPalette: petalPalette.length ? petalPalette : DEFAULT_FLOWER.petalPalette,
     centerColor: candidate.centerColor || DEFAULT_FLOWER.centerColor,
     stem,
     stemColor: candidate.stemColor || DEFAULT_FLOWER.stemColor,
     leafColor: candidate.leafColor || DEFAULT_FLOWER.leafColor,
-    size,
     message,
+    backgroundColors: backgroundColors.length
+      ? backgroundColors
+      : DEFAULT_FLOWER.backgroundColors,
   };
 }
 

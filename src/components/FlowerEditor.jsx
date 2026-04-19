@@ -1,4 +1,5 @@
-import { STEM_OPTIONS } from '../constants/flower';
+import { FLOWER_TYPE_OPTIONS, STEM_OPTIONS } from '../constants/flower';
+import FlowerTypeThumb from './FlowerTypeThumb';
 import LabeledControl from './LabeledControl';
 
 export default function FlowerEditor({ flower, onUpdateFlower }) {
@@ -18,25 +19,25 @@ export default function FlowerEditor({ flower, onUpdateFlower }) {
         />
       </LabeledControl>
 
-      <LabeledControl label="Petal count" hint={`${flower.petals} petals`}>
-        <input
-          type="range"
-          min="4"
-          max="18"
-          value={flower.petals}
-          onChange={(event) => onUpdateFlower('petals', Number(event.target.value))}
-        />
-      </LabeledControl>
-
-      <LabeledControl label="Bloom size" hint={`${flower.size}px`}>
-        <input
-          type="range"
-          min="120"
-          max="240"
-          step="5"
-          value={flower.size}
-          onChange={(event) => onUpdateFlower('size', Number(event.target.value))}
-        />
+      <LabeledControl label="Flower type" hint="Pick a silhouette">
+        <div className="flower-type-grid" role="radiogroup" aria-label="Flower type">
+          {FLOWER_TYPE_OPTIONS.map((option) => {
+            const isSelected = flower.flowerType === option.value;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                className={`flower-type-swatch${isSelected ? ' is-selected' : ''}`}
+                onClick={() => onUpdateFlower('flowerType', option.value)}
+              >
+                <FlowerTypeThumb flowerType={option.value} />
+                <span>{option.label}</span>
+              </button>
+            );
+          })}
+        </div>
       </LabeledControl>
 
       <div className="swatch-grid">
@@ -81,6 +82,32 @@ export default function FlowerEditor({ flower, onUpdateFlower }) {
             type="color"
             value={flower.leafColor}
             onChange={(event) => onUpdateFlower('leafColor', event.target.value)}
+          />
+        </LabeledControl>
+
+        <LabeledControl label="Background A" hint="Gradient start">
+          <input
+            type="color"
+            value={flower.backgroundColors[0]}
+            onChange={(event) =>
+              onUpdateFlower('backgroundColors', [
+                event.target.value,
+                flower.backgroundColors[1],
+              ])
+            }
+          />
+        </LabeledControl>
+
+        <LabeledControl label="Background B" hint="Gradient end">
+          <input
+            type="color"
+            value={flower.backgroundColors[1]}
+            onChange={(event) =>
+              onUpdateFlower('backgroundColors', [
+                flower.backgroundColors[0],
+                event.target.value,
+              ])
+            }
           />
         </LabeledControl>
       </div>

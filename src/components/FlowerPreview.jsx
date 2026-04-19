@@ -1,3 +1,246 @@
+function rotated(count, render, keyPrefix) {
+  return Array.from({ length: count }).map((_, index) => {
+    const angle = (360 / count) * index;
+    return (
+      <g key={`${keyPrefix}-${index}`} transform={`rotate(${angle})`}>
+        {render(index)}
+      </g>
+    );
+  });
+}
+
+function paletteAt(palette, index) {
+  return palette[index % palette.length];
+}
+
+function renderFlowerHead(flowerType, petalPalette, centerColor) {
+  const primary = paletteAt(petalPalette, 0);
+  const secondary = paletteAt(petalPalette, 1) || primary;
+
+  switch (flowerType) {
+    case 'folded-star':
+      return (
+        <>
+          {rotated(
+            5,
+            (index) => (
+              <path
+                d="M0 -96C34 -96 44 -66 30 -36C20 -14 8 -6 0 -18C-8 -6 -20 -14 -30 -36C-44 -66 -34 -96 0 -96Z"
+                fill={paletteAt(petalPalette, index)}
+              />
+            ),
+            'folded',
+          )}
+          <circle r="10" fill={centerColor} />
+        </>
+      );
+
+    case 'ruffled-ring':
+      return (
+        <>
+          {rotated(
+            14,
+            (index) => (
+              <circle cx="0" cy="-68" r="22" fill={paletteAt(petalPalette, index)} />
+            ),
+            'ruffled-outer',
+          )}
+          <circle r="44" fill={primary} />
+          <circle r="18" fill={centerColor} />
+        </>
+      );
+
+    case 'round-lotus':
+      return (
+        <>
+          {rotated(
+            8,
+            (index) => (
+              <path
+                d="M0 -100L18 -46L0 -24L-18 -46Z"
+                fill={paletteAt(petalPalette, index)}
+              />
+            ),
+            'lotus',
+          )}
+          <circle r="22" fill={centerColor} />
+          <circle r="10" fill="#fff7ed" opacity="0.85" />
+        </>
+      );
+
+    case 'pinwheel':
+      return (
+        <>
+          {rotated(
+            5,
+            (index) => (
+              <ellipse
+                cx="0"
+                cy="-62"
+                rx="30"
+                ry="40"
+                fill={paletteAt(petalPalette, index)}
+              />
+            ),
+            'pinwheel',
+          )}
+          <circle r="22" fill={centerColor} />
+          <circle r="10" fill="#fff7ed" />
+        </>
+      );
+
+    case 'sun-daisy':
+      return (
+        <>
+          {rotated(
+            18,
+            (index) => (
+              <ellipse
+                cx="0"
+                cy="-74"
+                rx="9"
+                ry="34"
+                fill={paletteAt(petalPalette, index)}
+              />
+            ),
+            'daisy',
+          )}
+          <circle r="26" fill={centerColor} />
+          <circle r="14" fill="#fff7ed" opacity="0.65" />
+        </>
+      );
+
+    case 'soft-petal':
+      return (
+        <>
+          {rotated(
+            8,
+            (index) => (
+              <ellipse
+                cx="0"
+                cy="-58"
+                rx="26"
+                ry="36"
+                fill={paletteAt(petalPalette, index)}
+              />
+            ),
+            'soft',
+          )}
+          <circle r="18" fill={centerColor} />
+          <circle r="8" fill="#fff7ed" opacity="0.85" />
+        </>
+      );
+
+    case 'star-bloom':
+      return (
+        <>
+          {rotated(
+            5,
+            (index) => (
+              <>
+                <path
+                  d="M0 -100L28 -44L0 -18L-28 -44Z"
+                  fill={paletteAt(petalPalette, index)}
+                />
+                <path
+                  d="M0 -90L0 -22"
+                  stroke="#fff7ed"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  opacity="0.75"
+                />
+              </>
+            ),
+            'star',
+          )}
+          <circle r="10" fill={centerColor} />
+        </>
+      );
+
+    case 'ring-clover':
+      return (
+        <>
+          {rotated(
+            5,
+            (index) => (
+              <path
+                d="M0 -14C-22 -46 -46 -54 -46 -78C-46 -96 -24 -104 -8 -88C-4 -84 0 -80 0 -78C0 -80 4 -84 8 -88C24 -104 46 -96 46 -78C46 -54 22 -46 0 -14Z"
+                fill={paletteAt(petalPalette, index)}
+              />
+            ),
+            'clover',
+          )}
+          <circle r="14" fill={centerColor} />
+        </>
+      );
+
+    case 'lily-star':
+      return (
+        <>
+          {rotated(
+            6,
+            (index) => (
+              <path
+                d="M0 -100L22 -44L0 -22L-22 -44Z"
+                fill={paletteAt(petalPalette, index)}
+              />
+            ),
+            'lily',
+          )}
+          <circle r="12" fill={centerColor} />
+        </>
+      );
+
+    case 'orchid-loop':
+      return (
+        <>
+          <path
+            d="M-44 -84C-44 -30 -52 8 0 30C52 8 44 -30 44 -84C26 -66 -26 -66 -44 -84Z"
+            fill={primary}
+          />
+          <ellipse cx="-54" cy="-52" rx="18" ry="30" fill={secondary} />
+          <ellipse cx="54" cy="-52" rx="18" ry="30" fill={secondary} />
+          <circle cx="0" cy="-6" r="10" fill={centerColor} />
+        </>
+      );
+
+    case 'triple-bloom':
+      return (
+        <>
+          {rotated(
+            3,
+            (index) => (
+              <ellipse
+                cx="0"
+                cy="-50"
+                rx="38"
+                ry="50"
+                fill={paletteAt(petalPalette, index)}
+              />
+            ),
+            'triple',
+          )}
+        </>
+      );
+
+    case 'bubble-flower':
+    default:
+      return (
+        <>
+          {rotated(
+            5,
+            (index) => (
+              <circle cx="0" cy="-60" r="30" fill={paletteAt(petalPalette, index)} />
+            ),
+            'bubble',
+          )}
+          <circle r="16" fill={centerColor} />
+          <circle r="6" fill="#fff7ed" opacity="0.75" />
+        </>
+      );
+  }
+}
+
 function buildStem(stem, stemColor, leafColor) {
   const shared = {
     fill: 'none',
@@ -42,44 +285,36 @@ function buildStem(stem, stemColor, leafColor) {
 }
 
 export default function FlowerPreview({ flower }) {
-  const { petals, petalPalette, centerColor, stem, stemColor, leafColor, size, message } = flower;
-  const petalCount = Array.from({ length: petals });
-  const scale = size / 170;
+  const {
+    flowerType,
+    petalPalette,
+    centerColor,
+    stem,
+    stemColor,
+    leafColor,
+    message,
+    backgroundColors,
+  } = flower;
 
   return (
     <section className="preview-card">
-      <div className="preview-stage">
+      <div
+        className="preview-stage"
+        style={{
+          background: `linear-gradient(180deg, ${backgroundColors[0]}, ${backgroundColors[1]})`,
+        }}
+      >
         <svg
           viewBox="0 0 300 380"
           role="img"
           aria-label="Custom flower preview"
-          style={{ width: `${size}px`, height: `${size * 1.15}px` }}
+          style={{ width: '170px', height: '196px' }}
         >
-          <defs>
-            <radialGradient id="petalGlow" cx="50%" cy="40%" r="60%">
-              <stop offset="0%" stopColor="#fff7ed" stopOpacity="0.95" />
-              <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-
-          <g transform={`translate(0 ${20 - scale * 8}) scale(${scale})`}>
+          <g transform="translate(0 12) scale(1)">
             {buildStem(stem, stemColor, leafColor)}
 
             <g transform="translate(150 145)">
-              {petalCount.map((_, index) => {
-                const angle = (360 / petals) * index;
-                const fill = petalPalette[index % petalPalette.length];
-
-                return (
-                  <g key={angle} transform={`rotate(${angle})`}>
-                    <ellipse cx="0" cy="-54" rx="24" ry="52" fill={fill} />
-                    <ellipse cx="0" cy="-54" rx="10" ry="26" fill="url(#petalGlow)" />
-                  </g>
-                );
-              })}
-
-              <circle r="34" fill={centerColor} />
-              <circle r="16" fill="#f8e16c" opacity="0.7" />
+              {renderFlowerHead(flowerType, petalPalette, centerColor)}
             </g>
           </g>
         </svg>
@@ -89,3 +324,5 @@ export default function FlowerPreview({ flower }) {
     </section>
   );
 }
+
+export { renderFlowerHead };
