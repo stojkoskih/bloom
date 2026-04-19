@@ -1,8 +1,27 @@
-import { FLOWER_TYPE_OPTIONS, STEM_OPTIONS } from '../constants/flower';
+import { FLOWER_TYPE_OPTIONS, POSITIVE_MESSAGES, STEM_OPTIONS } from '../constants/flower';
+import ColorSection from './ColorSection';
+import DiceButton from './DiceButton';
 import FlowerTypeThumb from './FlowerTypeThumb';
 import LabeledControl from './LabeledControl';
+import StemThumb from './StemThumb';
 
-export default function FlowerEditor({ flower, onUpdateFlower }) {
+function pickRandomMessage(current) {
+  if (POSITIVE_MESSAGES.length <= 1) {
+    return POSITIVE_MESSAGES[0] ?? '';
+  }
+
+  let next = current;
+  while (next === current) {
+    next = POSITIVE_MESSAGES[Math.floor(Math.random() * POSITIVE_MESSAGES.length)];
+  }
+  return next;
+}
+
+export default function FlowerEditor({ flower, onUpdateFlower, onApplyPreset }) {
+  function rollMessage() {
+    onUpdateFlower('message', pickRandomMessage(flower.message));
+  }
+
   return (
     <form className="editor-card" onSubmit={(event) => event.preventDefault()}>
       <div className="editor-heading">
@@ -10,7 +29,11 @@ export default function FlowerEditor({ flower, onUpdateFlower }) {
         <p>Tune the bloom, then send the generated link.</p>
       </div>
 
-      <LabeledControl label="Message" hint="Shown below the flower">
+      <LabeledControl
+        label="Message"
+        hint="Shown below the flower"
+        action={<DiceButton onRoll={rollMessage} title="Roll a random message" />}
+      >
         <textarea
           rows="4"
           maxLength="180"
@@ -40,89 +63,31 @@ export default function FlowerEditor({ flower, onUpdateFlower }) {
         </div>
       </LabeledControl>
 
-      <div className="swatch-grid">
-        <LabeledControl label="Petal color A" hint="Primary petals">
-          <input
-            type="color"
-            value={flower.petalPalette[0]}
-            onChange={(event) =>
-              onUpdateFlower('petalPalette', [event.target.value, flower.petalPalette[1]])
-            }
-          />
-        </LabeledControl>
+      <ColorSection
+        flower={flower}
+        onUpdateFlower={onUpdateFlower}
+        onApplyPreset={onApplyPreset}
+      />
 
-        <LabeledControl label="Petal color B" hint="Alternating petals">
-          <input
-            type="color"
-            value={flower.petalPalette[1]}
-            onChange={(event) =>
-              onUpdateFlower('petalPalette', [flower.petalPalette[0], event.target.value])
-            }
-          />
-        </LabeledControl>
-
-        <LabeledControl label="Center" hint="Flower core">
-          <input
-            type="color"
-            value={flower.centerColor}
-            onChange={(event) => onUpdateFlower('centerColor', event.target.value)}
-          />
-        </LabeledControl>
-
-        <LabeledControl label="Stem" hint="Stem color">
-          <input
-            type="color"
-            value={flower.stemColor}
-            onChange={(event) => onUpdateFlower('stemColor', event.target.value)}
-          />
-        </LabeledControl>
-
-        <LabeledControl label="Leaves" hint="Leaf color">
-          <input
-            type="color"
-            value={flower.leafColor}
-            onChange={(event) => onUpdateFlower('leafColor', event.target.value)}
-          />
-        </LabeledControl>
-
-        <LabeledControl label="Background A" hint="Gradient start">
-          <input
-            type="color"
-            value={flower.backgroundColors[0]}
-            onChange={(event) =>
-              onUpdateFlower('backgroundColors', [
-                event.target.value,
-                flower.backgroundColors[1],
-              ])
-            }
-          />
-        </LabeledControl>
-
-        <LabeledControl label="Background B" hint="Gradient end">
-          <input
-            type="color"
-            value={flower.backgroundColors[1]}
-            onChange={(event) =>
-              onUpdateFlower('backgroundColors', [
-                flower.backgroundColors[0],
-                event.target.value,
-              ])
-            }
-          />
-        </LabeledControl>
-      </div>
-
-      <LabeledControl label="Stem style" hint="Choose the flower silhouette">
-        <select
-          value={flower.stem}
-          onChange={(event) => onUpdateFlower('stem', event.target.value)}
-        >
-          {STEM_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+      <LabeledControl label="Stem style" hint="Pick a silhouette">
+        <div className="stem-grid" role="radiogroup" aria-label="Stem style">
+          {STEM_OPTIONS.map((option) => {
+            const isSelected = flower.stem === option.value;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                className={`stem-swatch${isSelected ? ' is-selected' : ''}`}
+                onClick={() => onUpdateFlower('stem', option.value)}
+              >
+                <StemThumb stem={option.value} />
+                <span>{option.label}</span>
+              </button>
+            );
+          })}
+        </div>
       </LabeledControl>
     </form>
   );

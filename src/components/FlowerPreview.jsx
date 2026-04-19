@@ -242,10 +242,16 @@ function renderFlowerHead(flowerType, petalPalette, centerColor) {
 }
 
 function buildStem(stem, stemColor, leafColor) {
-  const shared = {
+  const stemStroke = {
     fill: 'none',
     stroke: stemColor,
     strokeWidth: 10,
+    strokeLinecap: 'round',
+  };
+  const leafStroke = {
+    fill: 'none',
+    stroke: leafColor,
+    strokeWidth: 7,
     strokeLinecap: 'round',
   };
 
@@ -253,32 +259,73 @@ function buildStem(stem, stemColor, leafColor) {
     case 'curved':
       return (
         <>
-          <path d="M150 190C140 250 165 290 148 350" {...shared} />
-          <path d="M145 260C118 245 112 228 130 210" fill="none" stroke={leafColor} strokeWidth="8" strokeLinecap="round" />
-          <path d="M152 300C176 290 188 270 180 245" fill="none" stroke={leafColor} strokeWidth="8" strokeLinecap="round" />
+          <path d="M150 190C130 232 174 282 148 350" {...stemStroke} />
+          <path d="M146 250C122 238 110 216 124 198C140 208 150 228 146 250Z" fill={leafColor} />
+          <path d="M156 306C184 294 196 272 182 254C166 262 156 284 156 306Z" fill={leafColor} />
         </>
       );
     case 'double':
       return (
         <>
-          <path d="M150 190L150 350" {...shared} />
-          <ellipse cx="122" cy="260" rx="18" ry="34" transform="rotate(-38 122 260)" fill={leafColor} />
-          <ellipse cx="178" cy="296" rx="18" ry="34" transform="rotate(38 178 296)" fill={leafColor} />
+          <path d="M150 190L150 350" {...stemStroke} />
+          <path d="M150 256C118 248 102 224 112 204C140 210 154 232 150 256Z" fill={leafColor} />
+          <path d="M150 302C182 294 198 270 188 250C160 256 146 278 150 302Z" fill={leafColor} />
         </>
       );
     case 'sprout':
       return (
         <>
-          <path d="M150 190C154 235 152 280 150 350" {...shared} />
-          <path d="M148 265C120 258 114 235 132 224C144 231 149 246 148 265Z" fill={leafColor} />
-          <path d="M152 250C176 242 188 220 172 205C160 212 152 228 152 250Z" fill={leafColor} />
+          <path d="M150 210C152 252 150 300 150 350" {...stemStroke} />
+          <path d="M150 236C120 224 108 200 126 188C142 196 152 216 150 236Z" fill={leafColor} />
+          <path d="M150 236C180 224 192 200 174 188C158 196 148 216 150 236Z" fill={leafColor} />
         </>
       );
+    case 'bare':
+      return <path d="M150 190L150 350" {...stemStroke} />;
+    case 'long-leaf':
+      return (
+        <>
+          <path d="M150 190L150 350" {...stemStroke} />
+          <path
+            d="M150 204C208 218 224 292 152 338C144 302 148 244 150 204Z"
+            fill={leafColor}
+          />
+          <path
+            d="M152 216C180 240 188 290 154 326"
+            fill="none"
+            stroke={stemColor}
+            strokeWidth="3"
+            strokeLinecap="round"
+            opacity="0.45"
+          />
+        </>
+      );
+    case 'twin-buds':
+      return (
+        <>
+          <path d="M150 190L150 350" {...stemStroke} />
+          <path d="M150 238C132 228 118 232 110 244" {...leafStroke} />
+          <circle cx="106" cy="246" r="9" fill={leafColor} />
+          <path d="M150 284C168 274 182 278 190 290" {...leafStroke} />
+          <circle cx="194" cy="292" r="9" fill={leafColor} />
+        </>
+      );
+    case 'grass':
+      return (
+        <>
+          <path d="M150 204L150 350" {...stemStroke} />
+          <path d="M150 350C110 322 104 274 114 242" {...leafStroke} />
+          <path d="M150 350C132 320 128 274 134 244" {...leafStroke} />
+          <path d="M150 350C168 320 172 274 166 244" {...leafStroke} />
+          <path d="M150 350C190 322 196 274 186 242" {...leafStroke} />
+        </>
+      );
+    case 'classic':
     default:
       return (
         <>
-          <path d="M150 190L150 350" {...shared} />
-          <path d="M150 280C124 272 112 250 120 232C140 238 150 255 150 280Z" fill={leafColor} />
+          <path d="M150 190L150 350" {...stemStroke} />
+          <path d="M150 272C118 262 104 238 118 218C140 226 152 248 150 272Z" fill={leafColor} />
         </>
       );
   }
@@ -325,4 +372,4 @@ export default function FlowerPreview({ flower }) {
   );
 }
 
-export { renderFlowerHead };
+export { buildStem, renderFlowerHead };
