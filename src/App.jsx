@@ -10,7 +10,9 @@ import {
 } from "./utils/flowerState";
 
 function randomPositiveMessage() {
-  return POSITIVE_MESSAGES[Math.floor(Math.random() * POSITIVE_MESSAGES.length)];
+  return POSITIVE_MESSAGES[
+    Math.floor(Math.random() * POSITIVE_MESSAGES.length)
+  ];
 }
 
 export default function App() {
@@ -22,10 +24,7 @@ export default function App() {
     }
     return decoded;
   }, [params]);
-  const initialEditorOpen = useMemo(() => {
-    const params = new URLSearchParams(window.location.search);
-    return !params.has("d") || params.get("edit") === "1";
-  }, []);
+  const initialEditorOpen = useMemo(() => !params.has("d"), [params]);
   const [flower, setFlower] = useState(initialFlower);
   const [isEditorOpen, setIsEditorOpen] = useState(initialEditorOpen);
   const shareUrl = useMemo(() => {
@@ -36,14 +35,8 @@ export default function App() {
   }, [flower]);
 
   useEffect(() => {
-    const url = new URL(shareUrl);
-
-    if (isEditorOpen) {
-      url.searchParams.set("edit", "1");
-    }
-
-    window.history.replaceState({}, "", url.toString());
-  }, [isEditorOpen, shareUrl]);
+    window.history.replaceState({}, "", shareUrl);
+  }, [shareUrl]);
 
   async function copyLink() {
     try {
@@ -80,7 +73,7 @@ export default function App() {
             <div className="editor-toolbar">
               <div>
                 <p className="eyebrow">Flower editor</p>
-                <h2>Adjust the flowers and copy the link.</h2>
+                <h2>Send a thoughtful note.</h2>
               </div>
 
               <button
