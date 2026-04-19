@@ -5,8 +5,16 @@
   font-weight: 400;
   color: #1f2933;
   background:
-    radial-gradient(circle at top left, rgba(255, 214, 165, 0.55), transparent 34%),
-    radial-gradient(circle at top right, rgba(184, 242, 230, 0.55), transparent 26%),
+    radial-gradient(
+      circle at top left,
+      rgba(255, 214, 165, 0.55),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(184, 242, 230, 0.55),
+      transparent 26%
+    ),
     linear-gradient(180deg, #fffaf5 0%, #f5f1e8 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -44,7 +52,9 @@ button {
   background: linear-gradient(135deg, #db7c3b, #c2542a);
   color: white;
   cursor: pointer;
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
   box-shadow: 0 16px 24px rgba(201, 91, 48, 0.18);
 }
 
@@ -202,6 +212,8 @@ input[type="range"] {
   display: grid;
   place-items: center;
   padding: 1rem;
+  padding-top: max(1rem, env(safe-area-inset-top));
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
 .editor-overlay {
@@ -215,13 +227,17 @@ input[type="range"] {
   position: relative;
   z-index: 1;
   width: min(1080px, 100%);
-  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
   overflow: auto;
   padding: 1.4rem;
   border-radius: 28px;
   border: 1px solid var(--border);
   background:
-    radial-gradient(circle at top left, rgba(255, 235, 214, 0.82), transparent 28%),
+    radial-gradient(
+      circle at top left,
+      rgba(255, 235, 214, 0.82),
+      transparent 28%
+    ),
     rgba(255, 251, 246, 0.96);
   box-shadow: 0 32px 80px rgba(53, 35, 21, 0.24);
 }
@@ -324,7 +340,10 @@ input[type="range"] {
   color: var(--accent);
   box-shadow: none;
   cursor: pointer;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .dice-button:hover {
@@ -395,7 +414,10 @@ input[type="range"] {
   letter-spacing: 0.02em;
   box-shadow: none;
   cursor: pointer;
-  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
 }
 
 .palette-preset:hover {
@@ -479,7 +501,9 @@ input[type="range"] {
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.92);
   cursor: pointer;
-  transition: border-color 140ms ease, transform 140ms ease;
+  transition:
+    border-color 140ms ease,
+    transform 140ms ease;
 }
 
 .color-swatch:hover {
@@ -544,7 +568,10 @@ input[type="range"] {
   letter-spacing: 0.02em;
   box-shadow: none;
   cursor: pointer;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .flower-type-swatch:hover {
@@ -559,7 +586,11 @@ input[type="range"] {
 }
 
 .flower-type-swatch.is-selected {
-  background: linear-gradient(135deg, rgba(255, 231, 208, 0.95), rgba(255, 214, 180, 0.95));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 231, 208, 0.95),
+    rgba(255, 214, 180, 0.95)
+  );
   border-color: rgba(217, 111, 50, 0.65);
   color: #6b3a18;
   box-shadow: 0 10px 24px rgba(201, 91, 48, 0.18);
@@ -586,7 +617,10 @@ input[type="range"] {
   letter-spacing: 0.02em;
   box-shadow: none;
   cursor: pointer;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .stem-swatch:hover {
@@ -601,7 +635,11 @@ input[type="range"] {
 }
 
 .stem-swatch.is-selected {
-  background: linear-gradient(135deg, rgba(255, 231, 208, 0.95), rgba(255, 214, 180, 0.95));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 231, 208, 0.95),
+    rgba(255, 214, 180, 0.95)
+  );
   border-color: rgba(217, 111, 50, 0.65);
   color: #6b3a18;
   box-shadow: 0 10px 24px rgba(201, 91, 48, 0.18);
@@ -621,7 +659,11 @@ input[type="range"] {
   gap: 0.6rem;
   padding: 1.5rem;
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.92)),
+    radial-gradient(
+      circle at top,
+      rgba(255, 255, 255, 0.76),
+      rgba(255, 255, 255, 0.92)
+    ),
     var(--surface-strong);
 }
 
@@ -632,7 +674,11 @@ input[type="range"] {
   width: 100%;
   border-radius: 24px;
   background:
-    linear-gradient(180deg, rgba(255, 240, 216, 0.6), rgba(247, 252, 244, 0.95)),
+    linear-gradient(
+      180deg,
+      rgba(255, 240, 216, 0.6),
+      rgba(247, 252, 244, 0.95)
+    ),
     rgba(255, 255, 255, 0.65);
 }
 
@@ -679,6 +725,17 @@ input[type="range"] {
   .viewer-card,
   .editor-drawer {
     border-radius: 22px;
+  }
+
+  .editor-modal {
+    place-items: start center;
+    padding: 1.25rem 0.9rem;
+    padding-top: max(1.25rem, env(safe-area-inset-top));
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+  }
+
+  .editor-drawer {
+    max-height: calc(100dvh - 2.5rem);
   }
 
   .editor-toolbar {
