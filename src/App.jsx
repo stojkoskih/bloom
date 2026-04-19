@@ -2,16 +2,25 @@ import { useEffect, useMemo, useState } from "react";
 import FlowerEditor from "./components/FlowerEditor";
 import FlowerPreview from "./components/FlowerPreview";
 import ViewerPage from "./components/ViewerPage";
+import { POSITIVE_MESSAGES } from "./constants/flower";
 import {
   decodeFlowerState,
   encodeFlowerState,
   normalizeFlower,
 } from "./utils/flowerState";
 
+function randomPositiveMessage() {
+  return POSITIVE_MESSAGES[Math.floor(Math.random() * POSITIVE_MESSAGES.length)];
+}
+
 export default function App() {
   const params = useMemo(() => new URLSearchParams(window.location.search), []);
   const initialFlower = useMemo(() => {
-    return decodeFlowerState(params.get("d"));
+    const decoded = decodeFlowerState(params.get("d"));
+    if (!params.has("d")) {
+      return { ...decoded, message: randomPositiveMessage() };
+    }
+    return decoded;
   }, [params]);
   const initialEditorOpen = useMemo(() => {
     const params = new URLSearchParams(window.location.search);

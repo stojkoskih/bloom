@@ -243,6 +243,15 @@ input[type="range"] {
   display: grid;
   grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
   gap: 1.2rem;
+  align-items: start;
+}
+
+.editor-layout .preview-card {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  z-index: 2;
+  max-height: calc(100vh - 4rem);
 }
 
 .modal-share-panel {
@@ -646,6 +655,11 @@ input[type="range"] {
 
   .editor-layout .preview-card {
     order: -1;
+    max-height: 45vh;
+  }
+
+  .editor-layout .preview-stage {
+    min-height: 13rem;
   }
 
   .preview-stage {
